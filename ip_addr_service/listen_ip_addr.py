@@ -13,39 +13,31 @@ def control_c_handler(signum, frame):
 
 signal.signal(signal.SIGINT, control_c_handler)
 
-# Get your IP address
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-ip_addr = str(s.getsockname()[0])
-print('IP address: {}'.format(ip_addr))
-s.close()
-
 def on_connect(client, userdata, flags, rc):
 	print('connected')
+
+def on_message(client, userdata, msg):
+	print('on_message')
+	#print(client)
+	#print(userdata)
+	print(msg.topic)
+	print(msg.payload)
 
 def on_disconnect(client, userdata, rc):
 	print("Disconnected in a normal way")
 	#graceful so won't send will
-
-def on_log(client, userdata, level, buf):
-	print("log: {}".format(buf)) # only semi-useful IMHO
 
 # Instantiate the MQTT client
 mqtt_client = paho.Client()
 
 # set up handlers
 mqtt_client.on_connect = on_connect
+mqtt_client.on_message = on_message
 mqtt_client.on_disconnect = on_disconnect
 
 mqtt_topic = 'cis650/Ben/ip_addr'  # don't change this or you will screw it up for others
-mqtt_client.will_set(mqtt_topic, '______________Will of Bens IP Address Publisher _________________\n\n', 0, False)
+mqtt_client.will_set(mqtt_topic, '______________Will of Bens IP Address Listener _________________\n\n', 0, False)
 broker = 'sansa.cs.uoregon.edu'  # Boyana's server
 mqtt_client.connect(broker, '1883')
+mqtt_client.subscribe(mqtt_topic) #subscribe to all students in class
 mqtt_client.loop_start()  # just in case - starts a loop that listens for incoming data and keeps client alive
-
-while True:
-	timestamp = dt.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f')
-	mqtt_message = "[%s] %s " % (timestamp,ip_addr)  # don't change this or you will screw it up for others
-	mqtt_client.publish(mqtt_topic, mqtt_message)  # by doing this publish, we should keep client alive
-	print("published ip addr")
-	time.sleep(3)
