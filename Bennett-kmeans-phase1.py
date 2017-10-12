@@ -130,9 +130,9 @@ compute_center(batch.items()[0], C)
 processors = cpu_count()
 print("Total cores available: {}".format(processors))
 
-#N = processors  # change this to experient with different times
+N = processors  # change this to experient with different times
 
-N = 4
+#N = 4
 print("Total cores used: {}".format(N))
 
 # This function called when set up pool of processors. For now, just prints debugging info.
