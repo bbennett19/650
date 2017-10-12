@@ -41,3 +41,7 @@ broker = 'sansa.cs.uoregon.edu'  # Boyana's server
 mqtt_client.connect(broker, '1883')
 mqtt_client.subscribe(mqtt_topic) #subscribe to all students in class
 mqtt_client.loop_start()  # just in case - starts a loop that listens for incoming data and keeps client alive
+
+# just loop forever (or until ctrl-c)
+while True:
+	1==1
