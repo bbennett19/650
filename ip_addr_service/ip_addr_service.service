@@ -1,0 +1,13 @@
+[Unit]
+Description=IP Address publishing
+Wants=network-online.target
+After=network.target network-online.targer
+
+[Service]
+ExecStart=/home/root/650/ip_addr_service/publish_ip_addr.py
+Restart=on-failure
+RestartSec=10s
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
