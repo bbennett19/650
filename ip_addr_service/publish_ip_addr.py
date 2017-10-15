@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import time, socket, sys
 from datetime import datetime as dt
 import paho.mqtt.client as paho
