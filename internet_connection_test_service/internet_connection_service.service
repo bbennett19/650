@@ -1,0 +1,11 @@
+[Unit]
+Description=Internet connection test
+
+[Service]
+ExecStart=/home/root/650/internet_connection_test_service/internet_connection_test.py
+Restart=on-failure
+RestartSec=10s
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
